@@ -2,6 +2,8 @@
 
 An audio reactive four panel canvas inspired by soft chromatic gradients, overlapping forms, arches, and optical repetition. The artwork is drawn procedurally, with colors specified in OKLCH and converted for canvas output. Reference images are not included in the repository.
 
+**Live canvas:** https://sarveshsea.github.io/chromatic-forms/
+
 ## Run
 
 ```sh
@@ -27,9 +29,10 @@ The mappings are intentionally restrained so each composition remains coherent t
 
 ## Checkpoints
 
-1. App shell and local media transport.
-2. Four procedural OKLCH visual compositions and audio mapping.
-3. Browser verification and production build.
+1. `172b7e6` — app shell, local media transport, and four procedural OKLCH compositions.
+2. `823ed00` — color and browser playback checks.
+3. `0a35094` — usage and visual mapping documentation.
+4. `1d1a6c0` — media load race handling and GitHub Pages deployment.
 
 ## Verify
 
