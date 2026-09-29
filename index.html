@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f2f0eb" />
+    <title>Chromatic Forms — audio reactive canvas</title>
+  </head>
+  <body>
+    <main class="app">
+      <section class="stage" aria-label="Audio reactive visual grid">
+        <canvas id="art" aria-label="Four generative chromatic compositions"></canvas>
+        <div class="stage-note" id="stage-note">DEMO MOTION · DROP AN AUDIO OR MP4 FILE</div>
+      </section>
+      <footer class="controls">
+        <div class="brand"><span class="mark"></span><span>CHROMATIC FORMS</span></div>
+        <div class="transport">
+          <button id="play" type="button" aria-label="Play or pause">▶</button>
+          <span id="elapsed">0:00</span>
+          <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek" disabled />
+          <span id="duration">0:00</span>
+        </div>
+        <div class="actions">
+          <span id="filename">NO FILE LOADED</span>
+          <label class="upload">LOAD AUDIO / MP4<input id="file" type="file" accept="audio/*,video/mp4,.mp4,.m4a,.wav,.mp3,.ogg" /></label>
+        </div>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

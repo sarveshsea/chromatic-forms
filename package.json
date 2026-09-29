@@ -1,0 +1,23 @@
+{
+  "name": "audio-grid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "playwright": "^1.63.0",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  }
+}
