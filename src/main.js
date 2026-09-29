@@ -14,6 +14,7 @@ const note = document.querySelector('#stage-note');
 let features = { rms: 0, bass: 0, mid: 0, treble: 0, beat: 0, onset: 0 };
 let loaded = false;
 let seeking = false;
+let loadGeneration = 0;
 const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 
 const audio = createAudioEngine({
@@ -30,18 +31,24 @@ const audio = createAudioEngine({
 
 async function loadFile(file) {
   if (!file) return;
+  const generation = ++loadGeneration;
   try {
     note.textContent = 'DECODING AUDIO…';
     await audio.load(file);
+    if (generation !== loadGeneration) return;
     filename.textContent = file.name.toUpperCase();
-    note.textContent = 'LIVE AUDIO REACTIVE';
     await audio.play();
+    if (generation === loadGeneration) note.textContent = 'LIVE AUDIO REACTIVE';
   } catch (error) {
-    note.textContent = `COULD NOT READ AUDIO: ${error.message}`;
+    if (generation === loadGeneration) note.textContent = `COULD NOT PLAY AUDIO: ${error.message}`;
   }
 }
 fileInput.addEventListener('change', () => loadFile(fileInput.files?.[0]));
-playButton.addEventListener('click', async () => { if (loaded) await (audio.getState().playing ? audio.pause() : audio.play()); });
+playButton.addEventListener('click', async () => {
+  if (!loaded) return;
+  try { await (audio.getState().playing ? audio.pause() : audio.play()); }
+  catch (error) { note.textContent = `COULD NOT PLAY AUDIO: ${error.message}`; }
+});
 seek.addEventListener('input', () => { seeking = true; elapsed.textContent = formatTime(Number(seek.value) / 1000 * audio.getState().duration); });
 seek.addEventListener('change', () => { audio.seek(Number(seek.value) / 1000 * audio.getState().duration); seeking = false; });
 document.addEventListener('dragover', (event) => event.preventDefault());

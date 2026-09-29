@@ -31,6 +31,7 @@ export function createAudioEngine({ onFeatures = () => {}, onState = () => {} } 
   let lastOnsetAt = -Infinity;
   let fileName = '';
   let error = '';
+  let cancelPendingLoad;
 
   const getState = () => ({
     fileName,
@@ -62,6 +63,7 @@ export function createAudioEngine({ onFeatures = () => {}, onState = () => {} } 
     if (!file.type.startsWith('audio/') && file.type !== 'video/mp4' && !SUPPORTED_EXTENSIONS.test(file.name)) {
       return Promise.reject(new TypeError('Choose an audio file or an MP4 with an audio track.'));
     }
+    if (cancelPendingLoad) cancelPendingLoad();
     audio.pause();
     if (objectUrl) URL.revokeObjectURL(objectUrl);
     objectUrl = URL.createObjectURL(file);
@@ -76,6 +78,11 @@ export function createAudioEngine({ onFeatures = () => {}, onState = () => {} } 
       const cleanup = () => {
         audio.removeEventListener('loadedmetadata', ready);
         audio.removeEventListener('error', failed);
+        cancelPendingLoad = undefined;
+      };
+      cancelPendingLoad = () => {
+        cleanup();
+        reject(new DOMException('A newer file was selected.', 'AbortError'));
       };
       const ready = () => { cleanup(); emitState(); resolve(getState()); };
       const failed = () => {
